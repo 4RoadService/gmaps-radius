@@ -57,6 +57,12 @@ $ ->
             strokeOpacity: 0.62
             strokeWeight: 1
         })
+        point = new google.maps.Marker({
+            position: e.latLng  
+        })
+        point.setMap(map)
+
+        google.maps.event.addListener(point, 'rightclick', polygonDestructionHandler)
         google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler)
         google.maps.event.addListener(circle, 'click', circleDrawHandler)
 

@@ -42,7 +42,7 @@
       return markers = [];
     };
     circleDrawHandler = function(e) {
-      var circle, radius, select, unitKey;
+      var circle, point, radius, select, unitKey;
       select = $('#unitSelector');
       unitKey = $('option', select).eq(select[0].selectedIndex).val();
       radius = parseFloat(document.getElementById('radiusInput').value);
@@ -60,6 +60,11 @@
         strokeOpacity: 0.62,
         strokeWeight: 1
       });
+      point = new google.maps.Marker({
+        position: e.latLng
+      });
+      point.setMap(map);
+      google.maps.event.addListener(point, 'rightclick', polygonDestructionHandler);
       google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler);
       return google.maps.event.addListener(circle, 'click', circleDrawHandler);
     };
