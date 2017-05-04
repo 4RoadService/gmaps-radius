@@ -1,6 +1,6 @@
 (function() {
   $(function() {
-    var circleDrawHandler, clearMarkers, earthRadii, map, markers, polygonDestructionHandler, searchBox, searchInput, updateURL;
+    var circleDrawHandler, clearMarkers, earthRadii, map, markers, pointDrawHandlers, polygonDestructionHandler, searchBox, searchInput, updateURL;
     markers = [];
     map = new google.maps.Map($('#map')[0], {
       zoom: 10,
@@ -41,8 +41,17 @@
       }
       return markers = [];
     };
+    pointDrawHandlers = function(e) {
+      var point;
+      point = new google.maps.Marker({
+        position: e.latLng
+      });
+      point.setMap(map);
+      google.maps.event.addListener(point, 'rightclick', polygonDestructionHandler);
+      return google.maps.event.addListener(point, 'click', circleDrawHandler);
+    };
     circleDrawHandler = function(e) {
-      var circle, point, radius, select, unitKey;
+      var circle, radius, select, unitKey;
       select = $('#unitSelector');
       unitKey = $('option', select).eq(select[0].selectedIndex).val();
       radius = parseFloat(document.getElementById('radiusInput').value);
@@ -60,15 +69,10 @@
         strokeOpacity: 0.62,
         strokeWeight: 1
       });
-      point = new google.maps.Marker({
-        position: e.latLng
-      });
-      point.setMap(map);
-      google.maps.event.addListener(point, 'rightclick', polygonDestructionHandler);
       google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler);
-      return google.maps.event.addListener(circle, 'click', circleDrawHandler);
+      return google.maps.event.addListener(circle, 'click', pointDrawHandlers);
     };
-    google.maps.event.addListener(map, 'click', circleDrawHandler);
+    google.maps.event.addListener(map, 'click', pointDrawHandlers);
     searchInput = document.getElementById('searchInput');
     $(searchInput.form).on({
       submit: function() {
