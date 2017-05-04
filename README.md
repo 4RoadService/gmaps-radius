@@ -3,7 +3,11 @@ gmaps-radius
 
 This very simple little web app allows you to draw circles on top of a Google Map, with a radius that you specify.
 
-[Try it out](//obeattie.github.io/gmaps-radius/).
+* `click`: Place a circle
+* `Ctrl` + `click`: Place a pin
+* `right-click`: Remove
+
+[Try it out](//drjam.github.io/gmaps-radius/).
 
 Query parameters
 ----------------

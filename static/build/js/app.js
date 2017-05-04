@@ -66,7 +66,7 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
 
 (function() {
   $(function() {
-    var circleDrawHandler, clearMarkers, earthRadii, map, markers, pointDrawHandlers, polygonDestructionHandler, searchBox, searchInput, updateURL;
+    var circleDrawHandler, clearMarkers, clickHandler, controlDown, earthRadii, map, markers, pointDrawHandler, polygonDestructionHandler, searchBox, searchInput, updateURL;
     markers = [];
     map = new google.maps.Map($('#map')[0], {
       zoom: 10,
@@ -96,6 +96,13 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
       rd: 1268213.63,
       fr: 31705.3408
     };
+    controlDown = false;
+    window.onkeydown = function(e) {
+      return controlDown = (e.keyIdentifier === 'Control') || (e.ctrlKey === true);
+    };
+    window.onkeyup = function(e) {
+      return controlDown = false;
+    };
     polygonDestructionHandler = function() {
       return this.setMap(null);
     };
@@ -107,14 +114,14 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
       }
       return markers = [];
     };
-    pointDrawHandlers = function(e) {
+    pointDrawHandler = function(e) {
       var point;
       point = new google.maps.Marker({
         position: e.latLng
       });
       point.setMap(map);
       google.maps.event.addListener(point, 'rightclick', polygonDestructionHandler);
-      return google.maps.event.addListener(point, 'click', circleDrawHandler);
+      return google.maps.event.addListener(point, 'click', clickHandler);
     };
     circleDrawHandler = function(e) {
       var circle, radius, select, unitKey;
@@ -136,9 +143,16 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
         strokeWeight: 1
       });
       google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler);
-      return google.maps.event.addListener(circle, 'click', pointDrawHandlers);
+      return google.maps.event.addListener(circle, 'click', clickHandler);
     };
-    google.maps.event.addListener(map, 'click', pointDrawHandlers);
+    clickHandler = function(e) {
+      if (controlDown) {
+        return pointDrawHandler(e);
+      } else {
+        return circleDrawHandler(e);
+      }
+    };
+    google.maps.event.addListener(map, 'click', clickHandler);
     searchInput = document.getElementById('searchInput');
     $(searchInput.form).on({
       submit: function() {

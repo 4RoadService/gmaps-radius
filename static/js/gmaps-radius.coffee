@@ -30,6 +30,15 @@ $ ->
         fr: 31705.3408
     }
 
+    controlDown = false
+
+    window.onkeydown = (e) ->
+        controlDown = ((e.keyIdentifier == 'Control') || (e.ctrlKey == true));
+    
+    window.onkeyup = (e) ->
+        controlDown = false;
+    
+
     polygonDestructionHandler = () ->
         @setMap(null)
 
@@ -37,13 +46,13 @@ $ ->
         m.setMap(null) for m in markers
         markers = []
 
-    pointDrawHandlers = (e) ->
+    pointDrawHandler = (e) ->
         point = new google.maps.Marker({
             position: e.latLng  
         })
         point.setMap(map)
         google.maps.event.addListener(point, 'rightclick', polygonDestructionHandler)
-        google.maps.event.addListener(point, 'click', circleDrawHandler)
+        google.maps.event.addListener(point, 'click', clickHandler)
 
     circleDrawHandler = (e) ->
         # Get the radius in meters (as Google requires)
@@ -65,12 +74,16 @@ $ ->
             strokeOpacity: 0.62
             strokeWeight: 1
         })
-
         google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler)
-        google.maps.event.addListener(circle, 'click', pointDrawHandlers)
+        google.maps.event.addListener(circle, 'click', clickHandler)
 
+    clickHandler = (e) ->
+        if (controlDown)
+            pointDrawHandler(e)
+        else    
+            circleDrawHandler(e)
 
-    google.maps.event.addListener(map, 'click', pointDrawHandlers)
+    google.maps.event.addListener(map, 'click', clickHandler)
 
     searchInput = document.getElementById('searchInput')
     $(searchInput.form).on({ submit: -> false })
