@@ -32,7 +32,7 @@
     };
     controlDown = false;
     window.onkeydown = function(e) {
-      controlDown = (e.keyIdentifier === 'Control') || (e.ctrlKey === true);
+      controlDown = e.keyIdentifier === 'Control' || e.code === 'MetaLeft' || e.code === 'MetaRight' || e.ctrlKey === true;
       return true;
     };
     window.onkeyup = function(e) {

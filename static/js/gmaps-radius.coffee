@@ -33,7 +33,7 @@ $ ->
     controlDown = false
 
     window.onkeydown = (e) ->
-        controlDown = ((e.keyIdentifier == 'Control') || (e.ctrlKey == true));
+        controlDown = (e.keyIdentifier is 'Control' or e.code is 'MetaLeft' or e.code is 'MetaRight' or e.ctrlKey is true);
         return true;
     
     window.onkeyup = (e) ->
