@@ -98,10 +98,12 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
     };
     controlDown = false;
     window.onkeydown = function(e) {
-      return controlDown = (e.keyIdentifier === 'Control') || (e.ctrlKey === true);
+      controlDown = (e.keyIdentifier === 'Control') || (e.ctrlKey === true);
+      return true;
     };
     window.onkeyup = function(e) {
-      return controlDown = false;
+      controlDown = false;
+      return true;
     };
     polygonDestructionHandler = function() {
       return this.setMap(null);
