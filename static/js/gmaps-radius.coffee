@@ -3,7 +3,7 @@ $ ->
 
     map = new google.maps.Map($('#map')[0], {
         zoom: 10
-        center: new google.maps.LatLng(51.500358, -0.125506) # London
+        center: new google.maps.LatLng(45.5036922,-73.5791619) # London
         mapType: google.maps.MapTypeId.ROADMAP
         disableDefaultUI: true
         mapTypeControl: true
