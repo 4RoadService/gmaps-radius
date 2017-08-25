@@ -47,7 +47,7 @@ module.exports = (grunt) ->
                 options: {
                     mangle: true
                     preserveComments: 'some'
-                    banner: '/*! Made by Oliver Beattie. Built <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                    banner: '/*! 4RoadService.com. Built <%= grunt.template.today("yyyy-mm-dd") %> */\n'
                     compress: true
                     sourceMap: true
                     sourceMapIn: './build/js/app.js.map'
