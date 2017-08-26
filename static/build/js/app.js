@@ -66,7 +66,7 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
 
 (function() {
   $(function() {
-    var circleDrawHandler, clearMarkers, clickHandler, controlDown, earthRadii, map, markers, pointDrawHandler, polygonDestructionHandler, searchBox, searchInput, updateURL;
+    var circleDrawHandler, circleMoveHandler, clearMarkers, clickHandler, controlDown, earthRadii, map, markers, pointDrawHandler, polygonDestructionHandler, searchBox, searchInput, updateURL;
     markers = [];
     map = new google.maps.Map($('#map')[0], {
       zoom: 10,
@@ -136,7 +136,7 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
         clickable: true,
         draggable: true,
         geodesic: true,
-        editable: false,
+        editable: true,
         fillColor: '#004de8',
         fillOpacity: 0.27,
         map: map,
@@ -145,7 +145,32 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
         strokeOpacity: 0.62,
         strokeWeight: 1
       });
-      return google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler);
+      circle.infoWindow = new google.maps.InfoWindow({
+        disableAutoPan: true
+      });
+      circle.infoWindow.isOpen = false;
+      circleMoveHandler.call(circle);
+      google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler);
+      google.maps.event.addListener(circle, 'bounds_changed', circleMoveHandler);
+      google.maps.event.addListener(circle, 'click', function(e) {
+        if (this.infoWindow.isOpen) {
+          this.infoWindow.close();
+          return this.infoWindow.isOpen = false;
+        } else {
+          this.infoWindow.open(map);
+          return this.infoWindow.isOpen = true;
+        }
+      });
+      return google.maps.event.addListener(circle.infoWindow, 'closeclick', function(e) {
+        return this.isOpen = false;
+      });
+    };
+    circleMoveHandler = function(e) {
+      var content;
+      content = "<pre>Radius (km): " + this.getRadius() / 1000 + "\n";
+      content += "Center     : " + this.getCenter().lat() + ", " + this.getCenter().lng() + "</pre>";
+      this.infoWindow.setContent(content);
+      return this.infoWindow.setPosition(this.getCenter());
     };
     clickHandler = function(e) {
       if (controlDown) {
@@ -203,6 +228,10 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
     google.maps.event.addListener(map, 'bounds_changed', _.debounce(updateURL, 200));
     google.maps.event.addListener(map, 'zoom_changed', updateURL);
     $('#unitSelector, #radiusInput').on('change', updateURL);
+    document.querySelector('#options').addEventListener('submit', function(e) {
+      e.preventDefault();
+      return false;
+    });
     return $(window).on('hashchange', function(e) {
       var center, center_, newCenter, query, z;
       query = (new URI()).query(true);

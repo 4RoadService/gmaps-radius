@@ -68,7 +68,7 @@ $ ->
             clickable: true
             draggable: true
             geodesic: true
-            editable: false
+            editable: true
             fillColor: '#004de8'
             fillOpacity: 0.27
             map: map
@@ -77,7 +77,46 @@ $ ->
             strokeOpacity: 0.62
             strokeWeight: 1
         })
+
+
+
+        circle.infoWindow = new google.maps.InfoWindow({
+            disableAutoPan: true
+        })
+        circle.infoWindow.isOpen = false
+
+        # Fill the infoWindow with its initial content.
+        circleMoveHandler.call( circle )
+
         google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler)
+        google.maps.event.addListener(circle, 'bounds_changed', circleMoveHandler )
+        google.maps.event.addListener(circle, 'click', (e) ->
+
+            if @infoWindow.isOpen
+                @infoWindow.close()
+                @infoWindow.isOpen = false
+            else    
+                @infoWindow.open( map ) 
+                @infoWindow.isOpen = true
+        )
+
+        ##
+        # Record that the infoWindow is closed when someone clicks the close button
+        google.maps.event.addListener( circle.infoWindow, 'closeclick', (e) ->
+            @.isOpen = false;
+        )
+
+    ##
+    # Set the content of the infoWindow to show info about the related circle.
+    # Note that this is called when action is taken on the circle, so
+    # @ refers to the circle, and we've set the infoWindow as circle.infoWindow
+    circleMoveHandler = (e) ->
+        
+        content = "<pre>Radius (km): " + @.getRadius() / 1000 + "\n"
+        content += "Center     : " + @.getCenter().lat() + ", " + @.getCenter().lng() + "</pre>"
+        @infoWindow.setContent( content );
+        @infoWindow.setPosition( @.getCenter() )
+
         
 
     clickHandler = (e) ->
@@ -129,6 +168,10 @@ $ ->
     google.maps.event.addListener(map, 'bounds_changed', _.debounce(updateURL, 200))
     google.maps.event.addListener(map, 'zoom_changed', updateURL)
     $('#unitSelector, #radiusInput').on('change', updateURL)
+    document.querySelector('#options').addEventListener('submit', (e) ->
+        e.preventDefault()
+        return false
+    )
 
     $(window).on('hashchange', (e) ->
         query = (new URI()).query(true)
