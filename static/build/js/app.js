@@ -145,8 +145,7 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
         strokeOpacity: 0.62,
         strokeWeight: 1
       });
-      google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler);
-      return google.maps.event.addListener(circle, 'click', clickHandler);
+      return google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler);
     };
     clickHandler = function(e) {
       if (controlDown) {

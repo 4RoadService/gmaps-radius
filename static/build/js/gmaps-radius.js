@@ -79,8 +79,7 @@
         strokeOpacity: 0.62,
         strokeWeight: 1
       });
-      google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler);
-      return google.maps.event.addListener(circle, 'click', clickHandler);
+      return google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler);
     };
     clickHandler = function(e) {
       if (controlDown) {

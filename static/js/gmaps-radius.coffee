@@ -78,7 +78,7 @@ $ ->
             strokeWeight: 1
         })
         google.maps.event.addListener(circle, 'rightclick', polygonDestructionHandler)
-        google.maps.event.addListener(circle, 'click', clickHandler)
+        
 
     clickHandler = (e) ->
         if (controlDown)
