@@ -36,12 +36,25 @@
             <option value="rd">Rods</option>
             <option value="fr">Furlongs</option>
         </select>
-        <p>Click to place a circle, right click to remove</p>
+        <p>Click to place a circle, right click to remove <a href="#help" id="gethelp">?</a></p>
     </form>
+
+
 
     <form id="search">
         <input type="text" id="searchInput" name="searchInput" placeholder="Search for a place&hellip;" />
     </form>
+
+    <article id="help">
+        <h1>Draw Circles on a Map</h1>
+        <p>Clicking anywhere on the map will draw a circle on the map centered on your click, with the radius specified at the bottom left of the screen. Change the size of the circle by dragging the handles. Move the circle by dragging it around. Click the circle to see its exact location and radius. Right-click a circle to remove it.</p>
+
+        <p>Created by <a href="https://www.4roadservice.com">4 Road Service</a> on the shoulders of <a href="https://github.com/DrJam">DrJam</a> and <a href="https://github.com/obeattie">Oliver Beattie</a>.</p>
+
+        <p>Submit any tickets or pull requests <a href="https://github.com/4RoadService/gmaps-radius/issues">here on Github</a>. You should follow <a href="https://www.twitter.com/4roadservice">@4RoadService</a> on Twitter.</p>
+
+        <p>Click anywhere on this box to make it go away.</p>
+    </article>
 
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAFPz3bpdEgy3l42s946bDLH4hizWsyOQE&amp;libraries=places"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script>

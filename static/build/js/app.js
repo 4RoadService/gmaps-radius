@@ -66,7 +66,7 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
 
 (function() {
   $(function() {
-    var circleDrawHandler, circleMoveHandler, clearMarkers, clickHandler, controlDown, earthRadii, map, markers, pointDrawHandler, polygonDestructionHandler, searchBox, searchInput, updateURL;
+    var circleDrawHandler, circleMoveHandler, clearMarkers, clickHandler, controlDown, earthRadii, helpClickHandler, map, markers, pointDrawHandler, polygonDestructionHandler, searchBox, searchInput, updateURL;
     markers = [];
     map = new google.maps.Map($('#map')[0], {
       zoom: 10,
@@ -208,6 +208,15 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
         }));
       }
     });
+    helpClickHandler = function(e) {
+      var helpBlock;
+      helpBlock = document.getElementById('help');
+      if (helpBlock.style.display === 'none') {
+        return helpBlock.style.display = 'block';
+      } else {
+        return helpBlock.style.display = 'none';
+      }
+    };
     updateURL = function() {
       var center, params, ref, u;
       center = map.getCenter();
@@ -232,6 +241,7 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
       e.preventDefault();
       return false;
     });
+    $('#help, #gethelp').on('click', helpClickHandler);
     return $(window).on('hashchange', function(e) {
       var center, center_, newCenter, query, z;
       query = (new URI()).query(true);

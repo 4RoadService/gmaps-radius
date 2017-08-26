@@ -151,6 +151,13 @@ $ ->
         return
     )
 
+    helpClickHandler = (e) ->
+        helpBlock = document.getElementById('help')
+        if helpBlock.style.display is 'none'
+            helpBlock.style.display = 'block'
+        else
+            helpBlock.style.display = 'none'
+
     updateURL = ->
         center = map.getCenter()
         params = {
@@ -172,6 +179,8 @@ $ ->
         e.preventDefault()
         return false
     )
+
+    $('#help, #gethelp' ).on('click', helpClickHandler );
 
     $(window).on('hashchange', (e) ->
         query = (new URI()).query(true)
