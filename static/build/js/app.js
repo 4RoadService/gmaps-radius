@@ -134,7 +134,8 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
       circle = new google.maps.Circle({
         center: e.latLng,
         clickable: true,
-        draggable: false,
+        draggable: true,
+        geodesic: true,
         editable: false,
         fillColor: '#004de8',
         fillOpacity: 0.27,

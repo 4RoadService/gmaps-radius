@@ -68,7 +68,8 @@
       circle = new google.maps.Circle({
         center: e.latLng,
         clickable: true,
-        draggable: false,
+        draggable: true,
+        geodesic: true,
         editable: false,
         fillColor: '#004de8',
         fillOpacity: 0.27,
