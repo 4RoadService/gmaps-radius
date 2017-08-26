@@ -40,6 +40,9 @@
       return true;
     };
     polygonDestructionHandler = function() {
+      if (this.infoWindow != null) {
+        this.infoWindow.setMap(null);
+      }
       return this.setMap(null);
     };
     clearMarkers = function() {

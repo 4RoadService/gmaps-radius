@@ -42,6 +42,8 @@ $ ->
     
 
     polygonDestructionHandler = () ->
+        
+        @.infoWindow.setMap(null) if @.infoWindow?
         @setMap(null)
 
     clearMarkers = () ->

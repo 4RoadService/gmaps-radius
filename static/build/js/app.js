@@ -106,6 +106,9 @@ l=h.substring(0,l.length)!==l?g(""):new g(h.substring(l.length)),l._parentURI=th
       return true;
     };
     polygonDestructionHandler = function() {
+      if (this.infoWindow != null) {
+        this.infoWindow.setMap(null);
+      }
       return this.setMap(null);
     };
     clearMarkers = function() {
